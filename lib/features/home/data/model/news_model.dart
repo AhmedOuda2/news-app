@@ -11,14 +11,15 @@ class NewsModel {
     if (json['articles'] != null) {
       articles = <Articles>[];
       json['articles'].forEach((v) {
-        articles!.add(new Articles.fromJson(v));
+        articles!.add(Articles.fromJson(v));
       });
     }
   }
 }
 
 class Articles {
-  Source? source;
+  String? sourceName;
+  String? sourceId;
   String? author;
   String? title;
   String? description;
@@ -28,7 +29,8 @@ class Articles {
   String? content;
 
   Articles({
-    this.source,
+    this.sourceName,
+    this.sourceId,
     this.author,
     this.title,
     this.description,
@@ -39,25 +41,13 @@ class Articles {
   });
 
   Articles.fromJson(Map<String, dynamic> json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) : null;
-    author = json['author'];
+    sourceId = json['source']["id"];
+    sourceId = json['source']["name"];
     title = json['title'];
     description = json['description'];
     url = json['url'];
     urlToImage = json['urlToImage'];
     publishedAt = json['publishedAt'];
     content = json['content'];
-  }
-}
-
-class Source {
-  String? id;
-  String? name;
-
-  Source({this.id, this.name});
-
-  Source.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
   }
 }
