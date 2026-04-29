@@ -1,7 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/features/home/data/repo/data_source/home_data_source.dart';
+import 'package:news_app/features/home/data/repo/data_source/home_remote_data_source_imp.dart';
+import 'package:news_app/features/home/data/repo/repository_data_source/home_repository.dart';
+import 'package:news_app/features/home/data/repo/repository_data_source/home_repository_imp.dart';
 import 'package:news_app/features/home/view/widgets/image_item_widget.dart';
 import 'package:news_app/features/home/view_model/home_cubit.dart';
 import 'package:news_app/features/home/view_model/home_state.dart';
@@ -19,7 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _cubit = HomeCubit();
+    HomeDataSource dataSource = HomeRemoteDataSourceImp();
+    HomeRepository repo = HomeRepositoryImp(dataSource);
+    _cubit = HomeCubit(repo);
     _cubit.getNews();
   }
 
