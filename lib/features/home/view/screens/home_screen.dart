@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/view/widgets/image_item_widget.dart';
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _cubit = HomeCubit();
+    _cubit.getNews();
   }
 
   @override
@@ -37,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Center(child: CircularProgressIndicator());
 
             case SccessHomeState():
-              ListView.builder(
+              return ListView.builder(
                 itemBuilder: (context, index) {
                   return ImageItemWidget(
                     image: _cubit.articles[index].urlToImage ?? dummyImage,
@@ -57,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
           }
-          return Container();
         },
       ),
     );

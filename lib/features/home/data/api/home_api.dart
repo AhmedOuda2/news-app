@@ -8,6 +8,7 @@ import 'package:news_app/features/home/data/model/news_model.dart';
 abstract class HomeApi {
   static Future<ResultApi<NewsModel>> getNews() async {
     // https://newsapi.org/v2/everything?q=bitcoin&apiKey=f88f304c73da400e9456a2ffd9d44a96
+    // https://newsapi.org/v2/everything?q=bitcoin&apiKey=f88f304c73da400e9456a2ffd9d44a96
     try {
       Uri url = Uri.https("newsapi.org", "/v2/everything", {
         "q": "bitcoin",
