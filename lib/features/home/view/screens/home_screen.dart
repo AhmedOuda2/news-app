@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home/view/widgets/image_item_widget.dart';
+import 'package:news_app/features/home/view_model/home_cubit.dart';
+import 'package:news_app/features/home/view_model/home_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final HomeCubit _cubit;
+  @override
+  void initState() {
+    super.initState();
+    _cubit = HomeCubit();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +29,36 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('News App', style: Theme.of(context).textTheme.bodyLarge),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return ImageItemWidget(
-            image: dummyImage,
-            title: "Dynamic Title ${index + 1}",
-            onTap: () {},
-          );
+      body: BlocBuilder<HomeCubit, HomeState>(
+        bloc: _cubit,
+        builder: (context, state) {
+          switch (state) {
+            case LoadingHomeState():
+              return Center(child: CircularProgressIndicator());
+
+            case SccessHomeState():
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return ImageItemWidget(
+                    image: _cubit.articles[index].urlToImage ?? dummyImage,
+                    title: _cubit.articles[index].title ?? "",
+                    onTap: () {},
+                  );
+                },
+                itemCount: _cubit.articles.length,
+              );
+            case ErorrHomeState():
+              return Text(
+                _cubit.errorMassage,
+                style: TextStyle(
+                  color: Color(0xffFFFFFF),
+                  fontWeight: .w300,
+                  fontSize: 20,
+                ),
+              );
+          }
+          return Container();
         },
-        itemCount: 30,
       ),
     );
   }
