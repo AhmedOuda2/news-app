@@ -1,11 +1,13 @@
-class NewsModel {
+import 'package:news_app/features/home/domain/entities/news_entity.dart';
+
+class NewsModelDto {
   String? status;
   int? totalResults;
   List<Articles>? articles;
 
-  NewsModel({this.status, this.totalResults, this.articles});
+  NewsModelDto({this.status, this.totalResults, this.articles});
 
-  NewsModel.fromJson(Map<String, dynamic> json) {
+  NewsModelDto.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {
@@ -15,6 +17,12 @@ class NewsModel {
       });
     }
   }
+
+  NewsEntity toEntity() => NewsEntity(
+    status: status ?? "",
+    totalResults: totalResults ?? 0,
+    articles: articles?.map((e) => e.toEntity()).toList() ?? [],
+  );
 }
 
 class Articles {
@@ -50,4 +58,15 @@ class Articles {
     publishedAt = json['publishedAt'];
     content = json['content'];
   }
+  ArticlesEntity toEntity() => ArticlesEntity(
+    sourceId: sourceId ?? "",
+    sourceName: sourceName ?? "",
+    author: author ?? "",
+    title: title ?? "",
+    description: description ?? "",
+    url: url ?? "",
+    urlToImage: urlToImage ?? "",
+    publishedAt: publishedAt ?? "",
+    content: content ?? "",
+  );
 }

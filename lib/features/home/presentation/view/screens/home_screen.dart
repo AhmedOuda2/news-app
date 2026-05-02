@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/features/home/data/repo/data_source/home_data_source.dart';
-import 'package:news_app/features/home/data/repo/data_source/home_remote_data_source_imp.dart';
-import 'package:news_app/features/home/data/repo/repository_data_source/home_repository.dart';
 import 'package:news_app/features/home/data/repo/repository_data_source/home_repository_imp.dart';
-import 'package:news_app/features/home/view/widgets/image_item_widget.dart';
-import 'package:news_app/features/home/view_model/home_cubit.dart';
-import 'package:news_app/features/home/view_model/home_state.dart';
+import 'package:news_app/features/home/presentation/view/widgets/image_item_widget.dart';
+import 'package:news_app/features/home/presentation/view_model/home_cubit.dart';
+import 'package:news_app/features/home/presentation/view_model/home_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,9 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    HomeDataSource dataSource = HomeRemoteDataSourceImp();
-    HomeRepository repo = HomeRepositoryImp(dataSource);
-    _cubit = HomeCubit(repo);
+    _cubit = HomeCubit(homeRepositoryInjectable());
     _cubit.getNews();
   }
 
@@ -47,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   return ImageItemWidget(
-                    image: _cubit.articles[index].urlToImage ?? dummyImage,
-                    title: _cubit.articles[index].title ?? "",
+                    image: _cubit.articles[index].urlToImage,
+                    title: _cubit.articles[index].title,
                     onTap: () {},
                   );
                 },
