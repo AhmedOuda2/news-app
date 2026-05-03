@@ -5,7 +5,7 @@ import 'package:news_app/features/home/domain/entities/news_entity.dart';
 import 'package:news_app/features/home/domain/repo/home_data_source/home_data_source.dart';
 
 class HomeRemoteDataSourceImp implements HomeDataSource {
-  HomeRemoteDataSourceImp({required this.api});
+  HomeRemoteDataSourceImp(this.api);
   final HomeApi api;
   @override
   Future<ResultApi<NewsEntity>> getNews() async {
@@ -19,5 +19,4 @@ class HomeRemoteDataSourceImp implements HomeDataSource {
   }
 }
 
-HomeDataSource homeDataSourceInjectable() =>
-    HomeRemoteDataSourceImp(api: HomeApi());
+HomeDataSource homeDataSourceInjectable() => HomeRemoteDataSourceImp(HomeApi());

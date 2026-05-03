@@ -13,7 +13,9 @@ class GetNewsUseCase {
     switch (result) {
       case SuccessApi<NewsEntity>():
         result.data.articles.removeWhere(
-          (element) => element.urlToImage == "Url To Image",
+          (element) =>
+              element.urlToImage == "Url To Image" ||
+              element.urlToImage.isEmpty,
         );
         return SuccessApi<NewsEntity>(result.data);
       case ErorrApi<NewsEntity>():
